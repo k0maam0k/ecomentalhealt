@@ -6,52 +6,94 @@
 <title>Поддержка</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
+  /* Палитра: сиреневые сумерки. Тёмная тема включается по теме Telegram */
   :root {
-    --bg: var(--tg-theme-bg-color, #eef4f7);
-    --card: var(--tg-theme-secondary-bg-color, #ffffff);
-    --text: var(--tg-theme-text-color, #1d2b36);
-    --hint: var(--tg-theme-hint-color, #6a7b88);
-    --accent: var(--tg-theme-button-color, #2f7f9e);
-    --accent-text: var(--tg-theme-button-text-color, #ffffff);
+    --bg: #f4f1fb; --card: #ffffff; --ink: #2a2540; --hint: #7d779a;
+    --accent: #7352e8; --accent-ink: #ffffff; --soft: #ebe5ff; --line: #e3ddf5;
+    --warn-bg: #ffe9ee; --warn-line: #ffd0da;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15122a; --card: #201c3a; --ink: #efebff; --hint: #9b95bf;
+      --accent: #a48cff; --accent-ink: #15122a; --soft: #2c2750; --line: #332e57;
+      --warn-bg: #3a1f2e; --warn-line: #5a2f44; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15122a; --card: #201c3a; --ink: #efebff; --hint: #9b95bf;
+    --accent: #a48cff; --accent-ink: #15122a; --soft: #2c2750; --line: #332e57;
+    --warn-bg: #3a1f2e; --warn-line: #5a2f44; color-scheme: dark;
   }
   * { box-sizing: border-box; margin: 0; }
-  body { font-family: Georgia, "Times New Roman", serif; background: var(--bg); color: var(--text); padding: 20px 16px 60px; line-height: 1.5; }
-  h1 { font-size: 28px; font-weight: 600; margin-bottom: 6px; }
-  h2 { font-size: 22px; font-weight: 600; margin-bottom: 14px; }
-  p, button, .opt, .card { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
-  .hint { color: var(--hint); font-size: 14px; margin-bottom: 18px; }
+  body {
+    font-family: ui-rounded, "SF Pro Rounded", Nunito, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.5;
+    padding: max(20px, env(safe-area-inset-top)) 16px 60px;
+  }
+  button { font-family: inherit; }
+  h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+  h2 { font-size: 23px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 14px; }
+  .hint { color: var(--hint); font-size: 14px; margin-bottom: 16px; }
   .screen { display: none; max-width: 480px; margin: 0 auto; }
   .screen.active { display: block; }
-  .menu-btn { display: block; width: 100%; text-align: left; background: var(--card); color: var(--text); border: none; border-radius: 16px; padding: 16px 18px; margin-bottom: 10px; font-size: 17px; font-weight: 600; }
+
+  /* Главная: большая карточка «сегодня» и плитки */
+  .today { display: flex; align-items: center; gap: 16px; width: 100%; text-align: left; border: none; border-radius: 28px; padding: 22px 20px; background: var(--accent); color: var(--accent-ink); }
+  .today .e { font-size: 54px; line-height: 1; }
+  .today b { display: block; font-size: 20px; }
+  .today small { display: block; opacity: .85; font-size: 14px; margin-top: 2px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .tile { display: flex; flex-direction: column; justify-content: space-between; gap: 14px; min-height: 112px; text-align: left; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 22px; padding: 16px 14px; font-size: 16px; font-weight: 700; }
+  .tile span { font-size: 28px; line-height: 1; }
+  .tile small { display: block; font-weight: 400; color: var(--hint); font-size: 12px; line-height: 1.3; margin-top: 2px; }
+  .tile.alert { background: var(--warn-bg); border-color: var(--warn-line); }
+
+  /* Списки-кнопки (упражнения) */
+  .menu-btn { display: block; width: 100%; text-align: left; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 20px; padding: 16px 18px; margin-bottom: 10px; font-size: 17px; font-weight: 700; }
   .menu-btn small { display: block; font-weight: 400; color: var(--hint); font-size: 13px; margin-top: 2px; }
-  .primary { display: block; width: 100%; background: var(--accent); color: var(--accent-text); border: none; border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 600; margin-top: 16px; }
-  .primary:disabled { opacity: .4; }
-  .back { background: none; border: none; color: var(--accent); font-size: 15px; padding: 0; margin-bottom: 14px; }
+
+  /* Кнопки */
+  .primary { display: block; width: 100%; background: var(--accent); color: var(--accent-ink); border: none; border-radius: 18px; padding: 15px; font-size: 16px; font-weight: 700; margin-top: 16px; }
+  .primary:disabled { opacity: .35; }
+  .ghost { display: block; width: 100%; background: none; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 18px; padding: 13px; font-size: 15px; font-weight: 700; margin-top: 12px; }
+  .back { background: none; border: none; color: var(--accent); font-size: 15px; font-weight: 600; padding: 0; margin-bottom: 14px; }
   button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-  .moods { display: flex; justify-content: space-between; gap: 6px; }
-  .mood { flex: 1; font-size: 34px; background: var(--card); border: 3px solid transparent; border-radius: 16px; padding: 12px 0; transition: transform .15s; }
-  .mood.selected { border-color: var(--accent); transform: scale(1.1); }
+
+  /* Настроение: пять карточек с подписями */
+  .moods { display: flex; gap: 6px; }
+  .mood { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 12px 2px; color: var(--ink); transition: transform .15s; }
+  .mood span { font-size: 32px; line-height: 1.1; }
+  .mood small { font-size: 11px; color: var(--hint); }
+  .mood.selected { border-color: var(--accent); background: var(--soft); transform: translateY(-4px); }
   #mood-text { min-height: 48px; margin-top: 16px; }
-  .bar { height: 6px; background: var(--card); border-radius: 3px; margin-bottom: 18px; overflow: hidden; }
-  .bar div { height: 100%; width: 0; background: var(--accent); transition: width .3s; }
-  .opt { display: block; width: 100%; text-align: left; background: var(--card); color: var(--text); border: none; border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; font-size: 16px; }
+
+  /* Тест */
+  .bar { height: 8px; background: var(--soft); border-radius: 4px; margin-bottom: 18px; overflow: hidden; }
+  .bar div { height: 100%; width: 0; background: var(--accent); border-radius: 4px; transition: width .3s; }
+  .opt { display: block; width: 100%; text-align: left; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; padding: 15px 16px; margin-bottom: 8px; font-size: 16px; }
+
+  /* Дыхание */
   .breath-wrap { display: flex; flex-direction: column; align-items: center; margin: 24px 0; }
-  .circle { width: 120px; height: 120px; border-radius: 50%; background: var(--accent); opacity: .85; }
-  #breath-label { margin-top: 56px; font-size: 22px; font-family: Georgia, serif; min-height: 32px; }
-  .card { background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; font-size: 15px; }
+  .circle { width: 120px; height: 120px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 16px var(--soft); }
+  #breath-label { margin-top: 64px; font-size: 22px; font-weight: 600; min-height: 32px; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 16px 18px; margin-bottom: 12px; font-size: 15px; }
   .card ul { padding-left: 18px; }
-  .big { font-size: 40px; font-weight: 600; font-family: Georgia, serif; line-height: 1.1; }
+  .big { font-size: 34px; font-weight: 700; line-height: 1.1; }
+
+  /* Дневник */
   .stats { display: flex; gap: 10px; margin-bottom: 12px; }
-  .stats .card { flex: 1; margin: 0; }
+  .stats .card { flex: 1; margin: 0; padding: 14px; }
   .stats small { display: block; color: var(--hint); font-size: 12px; margin-top: 4px; }
-  /* График: 7 столбиков, высота = среднее настроение за день */
   .chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; }
   .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; font-size: 12px; color: var(--hint); }
-  .col i { display: block; width: 100%; background: var(--accent); border-radius: 6px 6px 0 0; min-height: 3px; opacity: .85; }
+  .col i { display: block; width: 100%; background: var(--accent); border-radius: 8px 8px 0 0; min-height: 4px; }
   .col i.empty { background: var(--hint); opacity: .25; }
   .col span { margin-top: 4px; }
   .row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 15px; }
-  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 20px; font-size: 14px; font-family: -apple-system, "Segoe UI", sans-serif; opacity: 0; pointer-events: none; transition: opacity .25s; }
+
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 20px; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity .25s; }
   #toast.show { opacity: 1; }
   @media (prefers-reduced-motion: reduce) { .mood, .bar div, #toast { transition: none; } }
 </style>
@@ -60,24 +102,27 @@
 
 <!-- ГЛАВНОЕ МЕНЮ -->
 <div class="screen active" id="home">
-  <h1>Как ты?</h1>
-  <p class="hint" id="home-hint">Всё хранится только у тебя в Telegram.</p>
-  <button class="menu-btn" onclick="show('mood')">Отметить настроение<small>Занимает 5 секунд</small></button>
-  <button class="menu-btn" onclick="openDiary()">Мой дневник<small>График, серия дней, тесты</small></button>
-  <button class="menu-btn" onclick="startTest()">Тест на тревожность<small>5 вопросов</small></button>
-  <button class="menu-btn" onclick="show('exercises')">Упражнения<small>Дыхание и заземление</small></button>
-  <button class="menu-btn" onclick="show('friend')">Как поддержать друга<small>Что сказать и чего не говорить</small></button>
-  <button class="menu-btn" onclick="show('teachers')">Для преподавателей<small>Как заметить тревожные признаки</small></button>
-  <button class="menu-btn" onclick="show('help')">Мне нужна помощь<small>Контакты и телефоны</small></button>
+  <h1>Привет 👋</h1>
+  <p class="hint">Всё хранится только у тебя в Telegram.</p>
+  <button class="today" id="today" onclick="openMood()"></button>
+  <div class="grid">
+    <button class="tile" onclick="openDiary()"><span>📈</span><div>Мой дневник<small>График и тесты</small></div></button>
+    <button class="tile" onclick="startTest()"><span>📝</span><div>Тест<small>Тревожность, 5 вопросов</small></div></button>
+    <button class="tile" onclick="show('exercises')"><span>🧘</span><div>Упражнения<small>Дыхание, расслабление</small></div></button>
+    <button class="tile" onclick="show('friend')"><span>🤝</span><div>Поддержать друга<small>Что сказать</small></div></button>
+    <button class="tile" onclick="show('teachers')"><span>🎓</span><div>Преподавателям<small>Тревожные признаки</small></div></button>
+    <button class="tile alert" onclick="show('help')"><span>🆘</span><div>Нужна помощь<small>Контакты и телефоны</small></div></button>
+  </div>
 </div>
 
-<!-- НАСТРОЕНИЕ -->
+<!-- НАСТРОЕНИЕ (одна отметка в день, её можно изменить) -->
 <div class="screen" id="mood">
   <button class="back" onclick="show('home')">‹ Назад</button>
-  <h2>Как ты сегодня?</h2>
+  <h2 id="mood-title">Как ты сегодня?</h2>
+  <p class="hint" id="mood-note"></p>
   <div class="moods" id="moods"></div>
   <p id="mood-text" class="hint"></p>
-  <button class="primary" id="mood-send" disabled onclick="saveMood()">Сохранить в дневник</button>
+  <button class="primary" id="mood-send" disabled onclick="saveMood()">Сохранить</button>
 </div>
 
 <!-- ДНЕВНИК И СТАТИСТИКА -->
@@ -91,6 +136,7 @@
   </div>
   <div class="card"><div class="chart" id="chart"></div></div>
   <div class="card"><b>Тесты на тревожность</b><div id="test-list" style="margin-top:8px"></div></div>
+  <button class="ghost" onclick="openMood()">Изменить сегодняшнюю отметку</button>
   <button class="primary" onclick="shareWithPsychologist()">Отправить анонимную сводку психологу</button>
   <p class="hint" style="margin-top:8px">Уйдут только цифры, без имени. Приложение закроется после отправки.</p>
 </div>
@@ -239,6 +285,7 @@
   // ---------- Telegram ----------
   const tg = window.Telegram ? window.Telegram.WebApp : null;
   if (tg) { tg.ready(); tg.expand(); }
+  if (tg && tg.colorScheme) document.documentElement.dataset.theme = tg.colorScheme;
 
   // ---------- Хранилище ----------
   // CloudStorage хранит данные в облаке Telegram (привязаны к человеку).
@@ -265,6 +312,9 @@
   async function loadData() {
     try { moods = JSON.parse(await store.get("moods")) || []; } catch (e) { moods = []; }
     try { tests = JSON.parse(await store.get("tests")) || []; } catch (e) { tests = []; }
+    const seen = {};
+    moods.forEach(m => { seen[dayKey(m[0])] = m; });
+    moods = Object.values(seen);
     updateHomeHint();
   }
 
@@ -282,48 +332,71 @@
   const dayKey = ts => new Date(ts).toLocaleDateString("sv"); // дата вида 2026-11-23
   const DAY = 86400000;
 
-  function updateHomeHint() {
-    const today = moods.some(m => dayKey(m[0]) === dayKey(Date.now()));
-    document.getElementById("home-hint").textContent = today
-      ? "Сегодня ты уже отметил(а) настроение. Всё хранится только у тебя в Telegram."
-      : "Сегодня настроение ещё не отмечено. Всё хранится только у тебя в Telegram.";
-  }
+  // ---------- Сегодняшняя отметка ----------
+  // В день бывает только одна отметка: ищем её среди сохранённых
+  function todayIndex() { return moods.findIndex(m => dayKey(m[0]) === dayKey(Date.now())); }
 
-  // ---------- Настроение ----------
   const MOODS = [
-    { v: 5, e: "😀", t: "Отлично! Держи этот настрой." },
-    { v: 4, e: "🙂", t: "Хорошо. Пусть день будет спокойным." },
-    { v: 3, e: "😐", t: "Нормально, бывает." },
-    { v: 2, e: "😟", t: "Непростой день. Загляни в упражнения." },
-    { v: 1, e: "😢", t: "Мне жаль, что тяжело. Ты не один: есть раздел «Мне нужна помощь»." },
+    { v: 5, e: "😀", l: "Отлично", t: "Отлично! Держи этот настрой." },
+    { v: 4, e: "🙂", l: "Хорошо", t: "Хорошо. Пусть день будет спокойным." },
+    { v: 3, e: "😐", l: "Нормально", t: "Нормально, бывает." },
+    { v: 2, e: "😟", l: "Плохо", t: "Непростой день. Загляни в упражнения." },
+    { v: 1, e: "😢", l: "Тяжело", t: "Мне жаль, что тяжело. Ты не один: есть раздел «Нужна помощь»." },
   ];
   let selectedMood = null;
 
+  // Большая карточка на главной: либо «отметь», либо «сегодня: ...»
+  function updateHomeHint() {
+    const i = todayIndex();
+    const box = document.getElementById("today");
+    if (i === -1) {
+      box.innerHTML = '<span class="e">🌤</span><div><b>Как ты сегодня?</b><small>Отметь настроение, это 5 секунд</small></div>';
+    } else {
+      const m = MOODS.find(x => x.v === moods[i][1]);
+      box.innerHTML = '<span class="e">' + m.e + '</span><div><b>Сегодня: ' + m.l.toLowerCase() + '</b><small>Нажми, чтобы изменить</small></div>';
+    }
+  }
+
+  // Пять кнопок настроения (смайлик + подпись)
   MOODS.forEach(m => {
     const b = document.createElement("button");
     b.className = "mood";
-    b.textContent = m.e;
-    b.setAttribute("aria-label", "Настроение " + m.v + " из 5");
-    b.onclick = () => {
-      selectedMood = m.v;
-      document.querySelectorAll(".mood").forEach(x => x.classList.remove("selected"));
-      b.classList.add("selected");
-      document.getElementById("mood-text").textContent = m.t;
-      document.getElementById("mood-send").disabled = false;
-    };
+    b.dataset.v = m.v;
+    b.innerHTML = "<span>" + m.e + "</span><small>" + m.l + "</small>";
+    b.setAttribute("aria-label", m.l);
+    b.onclick = () => selectMood(m.v);
     document.getElementById("moods").appendChild(b);
   });
 
-  async function saveMood() {
-    moods.push([Date.now(), selectedMood]);
-    moods = moods.slice(-90);                       // храним последние 90 отметок
-    await store.set("moods", JSON.stringify(moods));
+  function selectMood(v) {
+    selectedMood = v;
+    document.querySelectorAll(".mood").forEach(x => x.classList.toggle("selected", Number(x.dataset.v) === v));
+    document.getElementById("mood-text").textContent = MOODS.find(x => x.v === v).t;
+    document.getElementById("mood-send").disabled = false;
+  }
+
+  // Открываем экран: если отметка за сегодня уже есть, показываем её и меняем тексты
+  function openMood() {
+    const i = todayIndex();
+    document.getElementById("mood-title").textContent = i === -1 ? "Как ты сегодня?" : "Изменить отметку";
+    document.getElementById("mood-send").textContent = i === -1 ? "Сохранить" : "Обновить отметку";
+    document.getElementById("mood-note").textContent = i === -1 ? "" : "Сегодня отметка уже есть. Можно изменить её, но новая не добавится.";
     selectedMood = null;
     document.querySelectorAll(".mood").forEach(x => x.classList.remove("selected"));
     document.getElementById("mood-text").textContent = "";
     document.getElementById("mood-send").disabled = true;
+    if (i !== -1) selectMood(moods[i][1]);
+    show("mood");
+  }
+
+  async function saveMood() {
+    const i = todayIndex();
+    if (i === -1) moods.push([Date.now(), selectedMood]);   // первая отметка за день
+    else moods[i][1] = selectedMood;                        // уже есть: меняем оценку, время не трогаем
+    moods = moods.slice(-90);
+    await store.set("moods", JSON.stringify(moods));
     updateHomeHint();
-    toast("Сохранено в дневник");
+    toast(i === -1 ? "Сохранено в дневник" : "Отметка обновлена");
     openDiary();
   }
 
