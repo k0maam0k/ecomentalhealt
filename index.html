@@ -4,10 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Поддержка</title>
-<!-- Библиотека Telegram: даёт доступ к кнопкам, теме и отправке данных боту -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  /* Цвета берём из темы Telegram (светлая/тёмная), запасные значения - после запятой */
   :root {
     --bg: var(--tg-theme-bg-color, #eef4f7);
     --card: var(--tg-theme-secondary-bg-color, #ffffff);
@@ -17,90 +15,85 @@
     --accent-text: var(--tg-theme-button-text-color, #ffffff);
   }
   * { box-sizing: border-box; margin: 0; }
-  body {
-    font-family: Georgia, "Times New Roman", serif;
-    background: var(--bg); color: var(--text);
-    padding: 20px 16px 40px; line-height: 1.5;
-  }
+  body { font-family: Georgia, "Times New Roman", serif; background: var(--bg); color: var(--text); padding: 20px 16px 60px; line-height: 1.5; }
   h1 { font-size: 28px; font-weight: 600; margin-bottom: 6px; }
   h2 { font-size: 22px; font-weight: 600; margin-bottom: 14px; }
-  p, button, .opt { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+  p, button, .opt, .card { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
   .hint { color: var(--hint); font-size: 14px; margin-bottom: 18px; }
   .screen { display: none; max-width: 480px; margin: 0 auto; }
   .screen.active { display: block; }
-
-  /* Главное меню */
-  .menu-btn {
-    display: block; width: 100%; text-align: left;
-    background: var(--card); color: var(--text);
-    border: none; border-radius: 16px; padding: 16px 18px; margin-bottom: 10px;
-    font-size: 17px; font-weight: 600;
-  }
+  .menu-btn { display: block; width: 100%; text-align: left; background: var(--card); color: var(--text); border: none; border-radius: 16px; padding: 16px 18px; margin-bottom: 10px; font-size: 17px; font-weight: 600; }
   .menu-btn small { display: block; font-weight: 400; color: var(--hint); font-size: 13px; margin-top: 2px; }
-
-  /* Кнопки */
-  .primary {
-    display: block; width: 100%; background: var(--accent); color: var(--accent-text);
-    border: none; border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 600; margin-top: 16px;
-  }
+  .primary { display: block; width: 100%; background: var(--accent); color: var(--accent-text); border: none; border-radius: 14px; padding: 14px; font-size: 16px; font-weight: 600; margin-top: 16px; }
   .primary:disabled { opacity: .4; }
   .back { background: none; border: none; color: var(--accent); font-size: 15px; padding: 0; margin-bottom: 14px; }
   button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-
-  /* Настроение */
   .moods { display: flex; justify-content: space-between; gap: 6px; }
-  .mood {
-    flex: 1; font-size: 34px; background: var(--card); border: 3px solid transparent;
-    border-radius: 16px; padding: 12px 0; transition: transform .15s;
-  }
+  .mood { flex: 1; font-size: 34px; background: var(--card); border: 3px solid transparent; border-radius: 16px; padding: 12px 0; transition: transform .15s; }
   .mood.selected { border-color: var(--accent); transform: scale(1.1); }
-  #mood-text { min-height: 48px; margin-top: 16px; font-size: 15px; }
-
-  /* Тест */
+  #mood-text { min-height: 48px; margin-top: 16px; }
   .bar { height: 6px; background: var(--card); border-radius: 3px; margin-bottom: 18px; overflow: hidden; }
   .bar div { height: 100%; width: 0; background: var(--accent); transition: width .3s; }
-  .opt {
-    display: block; width: 100%; text-align: left; background: var(--card); color: var(--text);
-    border: none; border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; font-size: 16px;
-  }
-
-  /* Дыхание: круг увеличивается на вдохе и уменьшается на выдохе */
+  .opt { display: block; width: 100%; text-align: left; background: var(--card); color: var(--text); border: none; border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; font-size: 16px; }
   .breath-wrap { display: flex; flex-direction: column; align-items: center; margin: 24px 0; }
-  .circle {
-    width: 120px; height: 120px; border-radius: 50%; background: var(--accent); opacity: .85;
-    transform: scale(1); transition: transform 4s ease-in-out;
-  }
-  #breath-label { margin-top: 28px; font-size: 22px; font-family: Georgia, serif; min-height: 32px; }
-
-  .card { background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; font-size: 15px; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .circle { width: 120px; height: 120px; border-radius: 50%; background: var(--accent); opacity: .85; }
+  #breath-label { margin-top: 56px; font-size: 22px; font-family: Georgia, serif; min-height: 32px; }
+  .card { background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; font-size: 15px; }
   .card ul { padding-left: 18px; }
-  .result-num { font-size: 44px; font-weight: 600; font-family: Georgia, serif; }
-
-  @media (prefers-reduced-motion: reduce) { .circle, .mood, .bar div { transition: none; } }
+  .big { font-size: 40px; font-weight: 600; font-family: Georgia, serif; line-height: 1.1; }
+  .stats { display: flex; gap: 10px; margin-bottom: 12px; }
+  .stats .card { flex: 1; margin: 0; }
+  .stats small { display: block; color: var(--hint); font-size: 12px; margin-top: 4px; }
+  /* График: 7 столбиков, высота = среднее настроение за день */
+  .chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; }
+  .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; font-size: 12px; color: var(--hint); }
+  .col i { display: block; width: 100%; background: var(--accent); border-radius: 6px 6px 0 0; min-height: 3px; opacity: .85; }
+  .col i.empty { background: var(--hint); opacity: .25; }
+  .col span { margin-top: 4px; }
+  .row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 15px; }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 20px; font-size: 14px; font-family: -apple-system, "Segoe UI", sans-serif; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  #toast.show { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .mood, .bar div, #toast { transition: none; } }
 </style>
 </head>
 <body>
 
-<!-- ЭКРАН: главное меню -->
+<!-- ГЛАВНОЕ МЕНЮ -->
 <div class="screen active" id="home">
   <h1>Как ты?</h1>
-  <p class="hint">Всё анонимно. Бот не узнает, кто ты, он получает только цифры.</p>
+  <p class="hint" id="home-hint">Всё хранится только у тебя в Telegram.</p>
   <button class="menu-btn" onclick="show('mood')">Отметить настроение<small>Занимает 5 секунд</small></button>
+  <button class="menu-btn" onclick="openDiary()">Мой дневник<small>График, серия дней, тесты</small></button>
   <button class="menu-btn" onclick="startTest()">Тест на тревожность<small>5 вопросов</small></button>
   <button class="menu-btn" onclick="show('exercises')">Упражнения<small>Дыхание и заземление</small></button>
   <button class="menu-btn" onclick="show('help')">Мне нужна помощь<small>Контакты и телефоны</small></button>
 </div>
 
-<!-- ЭКРАН: настроение -->
+<!-- НАСТРОЕНИЕ -->
 <div class="screen" id="mood">
   <button class="back" onclick="show('home')">‹ Назад</button>
   <h2>Как ты сегодня?</h2>
   <div class="moods" id="moods"></div>
   <p id="mood-text" class="hint"></p>
-  <button class="primary" id="mood-send" disabled onclick="sendMood()">Сохранить</button>
+  <button class="primary" id="mood-send" disabled onclick="saveMood()">Сохранить в дневник</button>
 </div>
 
-<!-- ЭКРАН: вопросы теста -->
+<!-- ДНЕВНИК И СТАТИСТИКА -->
+<div class="screen" id="diary">
+  <button class="back" onclick="show('home')">‹ Назад</button>
+  <h2>Мой дневник</h2>
+  <div class="stats">
+    <div class="card"><div class="big" id="st-avg">–</div><small>среднее за 7 дней</small></div>
+    <div class="card"><div class="big" id="st-streak">0</div><small>дней подряд</small></div>
+    <div class="card"><div class="big" id="st-count">0</div><small>отметок за 7 дней</small></div>
+  </div>
+  <div class="card"><div class="chart" id="chart"></div></div>
+  <div class="card"><b>Тесты на тревожность</b><div id="test-list" style="margin-top:8px"></div></div>
+  <button class="primary" onclick="shareWithPsychologist()">Отправить анонимную сводку психологу</button>
+  <p class="hint" style="margin-top:8px">Уйдут только цифры, без имени. Приложение закроется после отправки.</p>
+</div>
+
+<!-- ТЕСТ -->
 <div class="screen" id="test">
   <button class="back" onclick="show('home')">‹ В меню</button>
   <div class="bar"><div id="bar"></div></div>
@@ -109,19 +102,18 @@
   <div id="q-options"></div>
 </div>
 
-<!-- ЭКРАН: результат теста -->
 <div class="screen" id="result">
   <h2>Результат</h2>
   <div class="card">
-    <div class="result-num"><span id="score"></span> из 15</div>
+    <div class="big"><span id="score"></span> из 15</div>
     <p id="result-text" style="margin-top:8px"></p>
   </div>
-  <p class="hint">Это не диагноз, а ориентир.</p>
-  <button class="primary" onclick="sendTest()">Сохранить анонимно и закрыть</button>
-  <button class="back" style="margin-top:14px" onclick="show('home')">Не сохранять</button>
+  <p class="hint">Это не диагноз, а ориентир. Результат сохранён в твой дневник.</p>
+  <button class="primary" onclick="openDiary()">Открыть дневник</button>
+  <button class="back" style="margin-top:14px" onclick="show('home')">В меню</button>
 </div>
 
-<!-- ЭКРАН: упражнения -->
+<!-- УПРАЖНЕНИЯ -->
 <div class="screen" id="exercises">
   <button class="back" onclick="show('home')">‹ Назад</button>
   <h2>Упражнения</h2>
@@ -129,7 +121,6 @@
   <button class="menu-btn" onclick="show('ground')">Заземление 5-4-3-2-1<small>Когда накрывает тревога</small></button>
 </div>
 
-<!-- ЭКРАН: дыхание -->
 <div class="screen" id="breath">
   <button class="back" onclick="stopBreath(); show('exercises')">‹ Назад</button>
   <h2>Дыхание 4-7-8</h2>
@@ -140,7 +131,6 @@
   <p class="hint" style="text-align:center">Повтори несколько раз. Плечи расслабь.</p>
 </div>
 
-<!-- ЭКРАН: заземление -->
 <div class="screen" id="ground">
   <button class="back" onclick="show('exercises')">‹ Назад</button>
   <h2>Заземление 5-4-3-2-1</h2>
@@ -154,7 +144,7 @@
   <p class="hint">Называй про себя, не торопись.</p>
 </div>
 
-<!-- ЭКРАН: помощь -->
+<!-- ПОМОЩЬ -->
 <div class="screen" id="help">
   <button class="back" onclick="show('home')">‹ Назад</button>
   <h2>Ты не один</h2>
@@ -164,24 +154,60 @@
   <div class="card"><b>Если опасно</b><br>Позвони 112 или обратись ко взрослому, которому доверяешь.</div>
 </div>
 
-<script>
-  // ---------- Подключаем Telegram ----------
-  const tg = window.Telegram ? window.Telegram.WebApp : null;
-  if (tg) { tg.ready(); tg.expand(); }   // ready = "я загрузилась", expand = развернуть на весь экран
+<div id="toast"></div>
 
-  // ---------- Переключение экранов ----------
-  // Показываем один экран, остальные прячем
+<script>
+  // ---------- Telegram ----------
+  const tg = window.Telegram ? window.Telegram.WebApp : null;
+  if (tg) { tg.ready(); tg.expand(); }
+
+  // ---------- Хранилище ----------
+  // CloudStorage хранит данные в облаке Telegram (привязаны к человеку).
+  // Если его нет (например, открыто в браузере), используем localStorage.
+  const cloud = tg && tg.CloudStorage && tg.isVersionAtLeast && tg.isVersionAtLeast("6.9");
+  const store = {
+    get(key) {
+      return new Promise(res => {
+        if (cloud) tg.CloudStorage.getItem(key, (err, v) => res(err ? null : v));
+        else { try { res(localStorage.getItem(key)); } catch (e) { res(null); } }
+      });
+    },
+    set(key, val) {
+      return new Promise(res => {
+        if (cloud) tg.CloudStorage.setItem(key, val, () => res());
+        else { try { localStorage.setItem(key, val); } catch (e) {} res(); }
+      });
+    },
+  };
+
+  // Данные в памяти: moods = [[время, настроение], ...], tests = [[время, баллы], ...]
+  let moods = [], tests = [];
+
+  async function loadData() {
+    try { moods = JSON.parse(await store.get("moods")) || []; } catch (e) { moods = []; }
+    try { tests = JSON.parse(await store.get("tests")) || []; } catch (e) { tests = []; }
+    updateHomeHint();
+  }
+
+  // ---------- Вспомогательное ----------
   function show(id) {
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
     window.scrollTo(0, 0);
   }
+  function toast(text) {
+    const t = document.getElementById("toast");
+    t.textContent = text; t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 1800);
+  }
+  const dayKey = ts => new Date(ts).toLocaleDateString("sv"); // дата вида 2026-11-23
+  const DAY = 86400000;
 
-  // ---------- Отправка данных боту ----------
-  // sendData отправляет текст боту и закрывает приложение
-  function send(data) {
-    if (tg && tg.sendData) tg.sendData(JSON.stringify(data));
-    else alert("Открой приложение через кнопку в боте, тогда данные сохранятся.");
+  function updateHomeHint() {
+    const today = moods.some(m => dayKey(m[0]) === dayKey(Date.now()));
+    document.getElementById("home-hint").textContent = today
+      ? "Сегодня ты уже отметил(а) настроение. Всё хранится только у тебя в Telegram."
+      : "Сегодня настроение ещё не отмечено. Всё хранится только у тебя в Telegram.";
   }
 
   // ---------- Настроение ----------
@@ -194,8 +220,6 @@
   ];
   let selectedMood = null;
 
-  // Рисуем 5 кнопок-смайликов циклом
-  const moodsBox = document.getElementById("moods");
   MOODS.forEach(m => {
     const b = document.createElement("button");
     b.className = "mood";
@@ -208,10 +232,73 @@
       document.getElementById("mood-text").textContent = m.t;
       document.getElementById("mood-send").disabled = false;
     };
-    moodsBox.appendChild(b);
+    document.getElementById("moods").appendChild(b);
   });
 
-  function sendMood() { send({ type: "mood", value: selectedMood }); }
+  async function saveMood() {
+    moods.push([Date.now(), selectedMood]);
+    moods = moods.slice(-90);                       // храним последние 90 отметок
+    await store.set("moods", JSON.stringify(moods));
+    selectedMood = null;
+    document.querySelectorAll(".mood").forEach(x => x.classList.remove("selected"));
+    document.getElementById("mood-text").textContent = "";
+    document.getElementById("mood-send").disabled = true;
+    updateHomeHint();
+    toast("Сохранено в дневник");
+    openDiary();
+  }
+
+  // ---------- Дневник и статистика ----------
+  function openDiary() {
+    const now = Date.now();
+    const chart = document.getElementById("chart");
+    chart.innerHTML = "";
+    let sum = 0, cnt = 0;
+
+    for (let i = 6; i >= 0; i--) {                  // 7 дней, от старого к сегодняшнему
+      const ts = now - i * DAY;
+      const vals = moods.filter(m => dayKey(m[0]) === dayKey(ts)).map(m => m[1]);
+      const avg = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
+      sum += vals.reduce((a, b) => a + b, 0);
+      cnt += vals.length;
+
+      const col = document.createElement("div");
+      col.className = "col";
+      col.innerHTML = '<i class="' + (vals.length ? "" : "empty") + '" style="height:' + (avg / 5 * 100) + '%"></i>' +
+                      "<span>" + new Date(ts).toLocaleDateString("ru", { weekday: "short" }) + "</span>";
+      chart.appendChild(col);
+    }
+
+    // Серия дней подряд (если сегодня пусто, считаем со вчера)
+    const has = ts => moods.some(m => dayKey(m[0]) === dayKey(ts));
+    let streak = 0, i = has(now) ? 0 : 1;
+    while (has(now - i * DAY)) { streak++; i++; }
+
+    document.getElementById("st-avg").textContent = cnt ? (sum / cnt).toFixed(1) : "–";
+    document.getElementById("st-streak").textContent = streak;
+    document.getElementById("st-count").textContent = cnt;
+
+    const list = document.getElementById("test-list");
+    list.innerHTML = tests.length ? "" : '<p class="hint" style="margin:0">Тестов пока нет.</p>';
+    tests.slice(-5).reverse().forEach(t => {
+      const r = document.createElement("div");
+      r.className = "row";
+      r.innerHTML = "<span>" + new Date(t[0]).toLocaleDateString("ru") + "</span><b>" + t[1] + " из 15</b>";
+      list.appendChild(r);
+    });
+    show("diary");
+  }
+
+  // Отправка анонимной сводки боту (только то, что ещё не отправляли)
+  async function shareWithPsychologist() {
+    if (!tg || !tg.sendData) { alert("Открой приложение кнопкой в боте, тогда сводка отправится."); return; }
+    const last = Number(await store.get("lastSync")) || 0;
+    const m = moods.filter(x => x[0] > last).map(x => x[1]);
+    const t = tests.filter(x => x[0] > last).map(x => x[1]);
+    if (!m.length && !t.length) { toast("Новых данных нет"); return; }
+    await store.set("lastSync", String(Date.now()));
+    tg.sendData(JSON.stringify({ type: "sync", moods: m, tests: t }));
+  }
 
   // ---------- Тест ----------
   const QUESTIONS = [
@@ -243,11 +330,13 @@
   function answer(pts) {
     totalScore += pts;
     qIndex++;
-    if (qIndex < QUESTIONS.length) showQuestion();
-    else showResult();
+    if (qIndex < QUESTIONS.length) showQuestion(); else finishTest();
   }
 
-  function showResult() {
+  async function finishTest() {
+    tests.push([Date.now(), totalScore]);
+    tests = tests.slice(-20);
+    await store.set("tests", JSON.stringify(tests));
     document.getElementById("score").textContent = totalScore;
     let text;
     if (totalScore <= 4) text = "Низкий уровень тревожности. Продолжай заботиться о себе.";
@@ -257,8 +346,6 @@
     show("result");
   }
 
-  function sendTest() { send({ type: "test", score: totalScore }); }
-
   // ---------- Дыхание 4-7-8 ----------
   let breathTimer = null;
 
@@ -266,24 +353,20 @@
     show("breath");
     const circle = document.getElementById("circle");
     const label = document.getElementById("breath-label");
-
-    // Каждая фаза: подпись, сколько секунд, во сколько раз круг увеличен
     const phases = [
       { text: "Вдох", sec: 4, scale: 1.8 },
       { text: "Задержи дыхание", sec: 7, scale: 1.8 },
       { text: "Выдох", sec: 8, scale: 1 },
     ];
     let i = 0;
-
-    function next() {
+    (function next() {
       const p = phases[i % phases.length];
       label.textContent = p.text;
       circle.style.transition = "transform " + p.sec + "s ease-in-out";
       circle.style.transform = "scale(" + p.scale + ")";
       i++;
-      breathTimer = setTimeout(next, p.sec * 1000);  // через p.sec секунд запускаем следующую фазу
-    }
-    next();
+      breathTimer = setTimeout(next, p.sec * 1000);
+    })();
   }
 
   function stopBreath() {
@@ -292,6 +375,8 @@
     c.style.transition = "none";
     c.style.transform = "scale(1)";
   }
+
+  loadData();
 </script>
 </body>
 </html>
