@@ -66,6 +66,8 @@
   <button class="menu-btn" onclick="openDiary()">Мой дневник<small>График, серия дней, тесты</small></button>
   <button class="menu-btn" onclick="startTest()">Тест на тревожность<small>5 вопросов</small></button>
   <button class="menu-btn" onclick="show('exercises')">Упражнения<small>Дыхание и заземление</small></button>
+  <button class="menu-btn" onclick="show('friend')">Как поддержать друга<small>Что сказать и чего не говорить</small></button>
+  <button class="menu-btn" onclick="show('teachers')">Для преподавателей<small>Как заметить тревожные признаки</small></button>
   <button class="menu-btn" onclick="show('help')">Мне нужна помощь<small>Контакты и телефоны</small></button>
 </div>
 
@@ -117,13 +119,16 @@
 <div class="screen" id="exercises">
   <button class="back" onclick="show('home')">‹ Назад</button>
   <h2>Упражнения</h2>
-  <button class="menu-btn" onclick="startBreath()">Дыхание 4-7-8<small>Помогает успокоиться</small></button>
+  <button class="menu-btn" onclick="startBreath('478')">Дыхание 4-7-8<small>Помогает успокоиться и уснуть</small></button>
+  <button class="menu-btn" onclick="startBreath('box')">Квадратное дыхание<small>Когда нужно собраться</small></button>
   <button class="menu-btn" onclick="show('ground')">Заземление 5-4-3-2-1<small>Когда накрывает тревога</small></button>
+  <button class="menu-btn" onclick="show('muscles')">Расслабление мышц<small>Когда тело зажато</small></button>
+  <button class="menu-btn" onclick="show('exam')">Перед экзаменом<small>Короткий план на нервный день</small></button>
 </div>
 
 <div class="screen" id="breath">
   <button class="back" onclick="stopBreath(); show('exercises')">‹ Назад</button>
-  <h2>Дыхание 4-7-8</h2>
+  <h2 id="breath-title">Дыхание 4-7-8</h2>
   <div class="breath-wrap">
     <div class="circle" id="circle"></div>
     <div id="breath-label">Приготовься</div>
@@ -142,6 +147,80 @@
     <li>1 вкус во рту</li>
   </ul></div>
   <p class="hint">Называй про себя, не торопись.</p>
+</div>
+
+<div class="screen" id="muscles">
+  <button class="back" onclick="show('exercises')">‹ Назад</button>
+  <h2>Расслабление мышц</h2>
+  <div class="card"><ul>
+    <li>Сожми кулаки на 5 секунд, потом резко отпусти</li>
+    <li>Подними плечи к ушам на 5 секунд, отпусти</li>
+    <li>Сильно зажмурься, отпусти</li>
+    <li>Напряги живот, отпусти</li>
+    <li>Упрись пятками в пол, напрягая ноги, отпусти</li>
+  </ul></div>
+  <p class="hint">После каждого «отпусти» сделай медленный выдох и почувствуй разницу между напряжением и расслаблением.</p>
+</div>
+
+<div class="screen" id="exam">
+  <button class="back" onclick="show('exercises')">‹ Назад</button>
+  <h2>Перед экзаменом</h2>
+  <div class="card"><b>За день</b><ul>
+    <li>Повтори главное, новое не начинай</li>
+    <li>Собери всё нужное заранее</li>
+    <li>Ляг спать вовремя: сон важнее последнего часа зубрёжки</li>
+  </ul></div>
+  <div class="card"><b>В день экзамена</b><ul>
+    <li>Поешь и выпей воды</li>
+    <li>Перед входом сделай квадратное дыхание 1-2 минуты</li>
+    <li>Если голова пустая, сделай три медленных выдоха и начни с самого простого вопроса</li>
+  </ul></div>
+  <div class="card"><b>После</b><ul>
+    <li>Не разбирай ответы с одногруппниками, результат уже не изменить</li>
+    <li>Отдохни: ты заслужил(а)</li>
+  </ul></div>
+</div>
+
+<div class="screen" id="friend">
+  <button class="back" onclick="show('home')">‹ Назад</button>
+  <h2>Как поддержать друга</h2>
+  <div class="card"><b>Что помогает</b><ul>
+    <li>Скажи прямо: «Я заметил(а), что ты сам не свой. Как ты?»</li>
+    <li>Слушай, не перебивай и не спеши с советами</li>
+    <li>Скажи: «Мне важно, что с тобой происходит»</li>
+    <li>Предложи вместе сходить к психологу</li>
+  </ul></div>
+  <div class="card"><b>Чего лучше не говорить</b><ul>
+    <li>«Соберись» и «у всех так»</li>
+    <li>«Не надумывай» и «у других хуже»</li>
+    <li>Не обещай хранить в тайне то, что связано с безопасностью</li>
+  </ul></div>
+  <div class="card"><b>Если друг говорит, что не хочет жить</b><br>Не оставляй его одного, останься рядом и сразу позови взрослого или психолога. При опасности звони 112.</div>
+  <div class="card"><b>Береги и себя</b><br>Ты не обязан(а) быть единственной опорой. Делись тем, что узнал(а), со взрослыми, которым доверяешь.</div>
+</div>
+
+<div class="screen" id="teachers">
+  <button class="back" onclick="show('home')">‹ Назад</button>
+  <h2>Для преподавателей</h2>
+  <div class="card"><b>На что обратить внимание</b><ul>
+    <li>Резкая перемена: был(а) активным, стал(а) замкнутым</li>
+    <li>Частые пропуски и опоздания, падение успеваемости</li>
+    <li>Постоянная усталость, раздражительность, слёзы</li>
+    <li>Жалобы на головную боль и самочувствие без причины</li>
+    <li>Конфликты в классе или признаки травли</li>
+  </ul></div>
+  <div class="card"><b>Что делать</b><ul>
+    <li>Поговорить наедине, спокойно и без обвинений</li>
+    <li>Слушать и не оценивать</li>
+    <li>Сказать, что обратиться за помощью нормально</li>
+    <li>Передать информацию психологу учебного заведения по правилам вашей организации</li>
+  </ul></div>
+  <div class="card"><b>Чего не делать</b><ul>
+    <li>Не ставить диагнозов и не обсуждать случай при других</li>
+    <li>Не обесценивать: «это пройдёт», «соберись»</li>
+    <li>Не обещать полную тайну, если есть риск для безопасности</li>
+  </ul></div>
+  <div class="card"><b>Срочно</b><br>Если ученик говорит о желании причинить себе вред, не оставляйте его одного, сразу вызовите психолога и администрацию, при необходимости звоните 112.</div>
 </div>
 
 <!-- ПОМОЩЬ -->
@@ -349,15 +428,25 @@
   // ---------- Дыхание 4-7-8 ----------
   let breathTimer = null;
 
-  function startBreath() {
+  function startBreath(mode) {
+    stopBreath();                                    // на случай, если уже шло другое дыхание
     show("breath");
     const circle = document.getElementById("circle");
     const label = document.getElementById("breath-label");
-    const phases = [
-      { text: "Вдох", sec: 4, scale: 1.8 },
-      { text: "Задержи дыхание", sec: 7, scale: 1.8 },
-      { text: "Выдох", sec: 8, scale: 1 },
-    ];
+    // mode выбирает схему: "478" или "box" (квадратное дыхание 4-4-4-4)
+    const phases = mode === "box"
+      ? [
+          { text: "Вдох", sec: 4, scale: 1.8 },
+          { text: "Задержи дыхание", sec: 4, scale: 1.8 },
+          { text: "Выдох", sec: 4, scale: 1 },
+          { text: "Пауза", sec: 4, scale: 1 },
+        ]
+      : [
+          { text: "Вдох", sec: 4, scale: 1.8 },
+          { text: "Задержи дыхание", sec: 7, scale: 1.8 },
+          { text: "Выдох", sec: 8, scale: 1 },
+        ];
+    document.getElementById("breath-title").textContent = mode === "box" ? "Квадратное дыхание" : "Дыхание 4-7-8";
     let i = 0;
     (function next() {
       const p = phases[i % phases.length];
