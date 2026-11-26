@@ -74,9 +74,10 @@
   .opt { display: block; width: 100%; text-align: left; background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 18px; padding: 15px 16px; margin-bottom: 8px; font-size: 16px; }
 
   /* Дыхание */
-  .breath-wrap { display: flex; flex-direction: column; align-items: center; margin: 24px 0; }
+  /* Сцена с запасом под максимальный размер круга (120px × 1.8 + кольцо), чтобы он не залезал на текст */
+  .breath-stage { display: flex; align-items: center; justify-content: center; height: 290px; margin: 8px 0 0; overflow: hidden; }
   .circle { width: 120px; height: 120px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 16px var(--soft); }
-  #breath-label { margin-top: 64px; font-size: 22px; font-weight: 600; min-height: 32px; }
+  #breath-label { text-align: center; font-size: 24px; font-weight: 700; min-height: 36px; margin: 8px 0 20px; }
 
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 16px 18px; margin-bottom: 12px; font-size: 15px; }
   .card ul { padding-left: 18px; }
@@ -175,10 +176,8 @@
 <div class="screen" id="breath">
   <button class="back" onclick="stopBreath(); show('exercises')">‹ Назад</button>
   <h2 id="breath-title">Дыхание 4-7-8</h2>
-  <div class="breath-wrap">
-    <div class="circle" id="circle"></div>
-    <div id="breath-label">Приготовься</div>
-  </div>
+  <div class="breath-stage"><div class="circle" id="circle"></div></div>
+  <div id="breath-label">Приготовься</div>
   <p class="hint" style="text-align:center">Повтори несколько раз. Плечи расслабь.</p>
 </div>
 
@@ -273,9 +272,8 @@
 <div class="screen" id="help">
   <button class="back" onclick="show('home')">‹ Назад</button>
   <h2>Ты не один</h2>
-  <!-- ВПИШИ контакты своего психолога -->
-  <div class="card"><b>Психолог</b><br>ИМЯ, кабинет ___<br>Телефон: ___</div>
-  <div class="card"><b>Телефон доверия</b><br>150 (проверь номер для своего региона)</div>
+  <div class="card"><b>Психолог</b><br>Хворова Ольга Сергеевна<br>Телефон: <a href="tel:87142226532" style="color:var(--accent)">8-(7142)-226532</a></div>
+  <div class="card"><b>Телефон доверия</b><br><a href="tel:211353" style="color:var(--accent)">211-353</a></div>
   <div class="card"><b>Если опасно</b><br>Позвони 112 или обратись ко взрослому, которому доверяешь.</div>
 </div>
 
